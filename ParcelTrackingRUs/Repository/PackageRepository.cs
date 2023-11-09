@@ -11,23 +11,23 @@ namespace ParcelTrackingRUs.Repository
         {
             MongoClient mongoClient = new MongoClient(mongoDBSettings.Value.ConnectString);
             var mongoDatabase = mongoClient.GetDatabase(mongoDBSettings.Value.DatabaseName);
-            _students = mongoDatabase.GetCollection<Package>(mongoDBSettings.Value.StudentsCollectionName);
+            _packages = mongoDatabase.GetCollection<Package>(mongoDBSettings.Value.StudentsCollectionName);
         }
-        private readonly IMongoCollection<Package> _students;
+        private readonly IMongoCollection<Package> _packages;
 
 
         public void Add(Package std)
         {
-            _students.InsertOne(std);
+            _packages.InsertOne(std);
         }
 
         public Package? Get(Guid id)
         {
-            return _students.Find(std => std.Id == id).FirstOrDefault();
+            return _packages.Find(std => std.Id == id).FirstOrDefault();
         }
 		public List<Package> GetAll()
 		{
-			return _students.Find(_ => true).ToList();
+			return _packages.Find(_ => true).ToList();
 		}
 
 	}
