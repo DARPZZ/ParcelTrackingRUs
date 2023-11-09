@@ -17,3 +17,5 @@ services:
      - 5000:5142
     depends_on:
       - mongohost
+volumes:
+    mongodb_data:

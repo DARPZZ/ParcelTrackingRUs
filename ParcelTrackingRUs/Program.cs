@@ -1,4 +1,7 @@
 
+using ParcelTrackingRUs.Model;
+using ParcelTrackingRUs.Repository;
+
 namespace ParcelTrackingRUs
 {
     public class Program
@@ -10,6 +13,8 @@ namespace ParcelTrackingRUs
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.Configure<RestDatabaseSettings>(builder.Configuration.GetSection(nameof(RestDatabaseSettings)));
+            builder.Services.AddSingleton<IPackageRepository, PackageRepository>();
 
             var app = builder.Build();
 
@@ -19,6 +24,16 @@ namespace ParcelTrackingRUs
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.MapPost("/package", (Package std, IPackageRepository sr) =>
+            {
+                sr.Add(std);
+            });
+            app.MapGet("/package/{id}", (Guid std, IPackageRepository sr) =>
+            {
+
+                return sr.Get(std);
+            });
+
             app.Run();
         }
     }
