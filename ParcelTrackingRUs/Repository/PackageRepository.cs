@@ -2,12 +2,12 @@
 using MongoDB.Driver;
 using ParcelTrackingRUs.Model;
 
-namespace ParcelTrackingRUs.Repositorys
+namespace ParcelTrackingRUs.Repository
 {
   
-    public class StudentRepository : IpackageRepository
+    public class PackageRepository : IPackageRepository
     {
-        public StudentRepository(IOptions<RestDatabaseSettings> mongoDBSettings)
+        public PackageRepository(IOptions<RestDatabaseSettings> mongoDBSettings)
         {
             MongoClient mongoClient = new MongoClient(mongoDBSettings.Value.ConnectString);
             var mongoDatabase = mongoClient.GetDatabase(mongoDBSettings.Value.DatabaseName);
@@ -16,19 +16,19 @@ namespace ParcelTrackingRUs.Repositorys
         private readonly IMongoCollection<Package> _students;
 
 
-        public void add(Package std)
+        public void Add(Package std)
         {
             _students.InsertOne(std);
         }
 
-        public Package? get(Guid id)
+        public Package? Get(Guid id)
         {
             return _students.Find(std => std.Id == id).FirstOrDefault();
         }
-        public Package? getAll()
-        {
-            return _students.Find(e => e.Id =
-        }
+		public List<Package> GetAll()
+		{
+			return _students.Find(_ => true).ToList();
+		}
 
-    }
+	}
 }

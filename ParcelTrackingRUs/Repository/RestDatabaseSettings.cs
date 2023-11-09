@@ -1,4 +1,4 @@
-﻿namespace ParcelTrackingRUs.Repositorys
+﻿namespace ParcelTrackingRUs.Repository
 {
     public class RestDatabaseSettings
     {
